@@ -15,7 +15,7 @@ const PaginationComp = ({ postsPerPage, totalPosts, paginate, activePage }) => {
           return (
             <li key={num} className={`page-item ${activePage === num ? 'active-page' : ''}`}>
               <a
-                href='!#'
+                // href='!#'
                 className='page-link'
                 onClick={() => paginate(num)}
               >
