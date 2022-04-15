@@ -322,6 +322,15 @@ header {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  max-height: 30rem;
+  overflow: scroll;
+}
+
+.modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
 }
 
 .modal-body{
@@ -329,6 +338,12 @@ header {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+}
+
+.img-tick {
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
 }
 
 form {

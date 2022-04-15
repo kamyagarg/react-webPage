@@ -1,33 +1,75 @@
 import React, { useEffect, useState } from 'react';
 import Images from '../../utils/Images';
 
-const AddRowModal = ({ paymentToDelete, closeAddRowModal, deletePayment }) => {
+const AddRowModal = ({ closeAddRowModal,formData }) => {
 
-  const[inputPaymentId, setInputPaymentId] = useState();
-  const[inputFromDate, setInputFromDate] = useState();
-  const[inputToDate, setInputToDate] = useState();
-  const[inputMerchantId, setInputMerchantId] = useState();
-  const[inputEmail, setInputEmail] = useState();
-  const[inputAmount, setInputAmount] = useState();
-  const[inputPaymentStatus, setInputPaymentStatus] = useState();
+  const initialFormValues = {
+    inputPaymentId: '',
+    inputFromDate: '',
+    inputToDate: '',
+    inputMerchantId: '',
+    inputEmail: '',
+    inputAmount: '',
+    inputPaymentStatus: '',
+  }
+  const [inputFormValues, setInputFormValues] = useState(initialFormValues);
+  const [inputFormErrors, setInputFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
-  const getFormData = (e) => {
-    console.log("getFormData", e.target);
-    // e.preventDefault();
+  const handleForm = (e) => {
+    e.preventDefault();
+    setInputFormErrors(validateForm(inputFormValues));
+    setIsSubmit(true);
   }
 
-  console.log("inputPaymentId",inputPaymentId);
-  console.log("inputFromDate",inputFromDate);
-  console.log("inputToDate",inputToDate);
-  console.log("inputMerchantId",inputMerchantId);
-  console.log("inputEmail",inputEmail);
-  console.log("inputAmount",inputAmount);
-  console.log("setInputPaymentStatus",inputPaymentStatus);
-
-
   useEffect(() => {
-    
-  },[])
+    if (Object.keys(inputFormErrors).length === 0 && isSubmit) {
+      formData(inputFormValues);
+    }
+  }, [inputFormErrors])
+
+  // useEffect(()=>{
+  //   if(Object.keys(inputFormErrors).length === 0 && isSubmit){
+  //     formData(inputFormValues);
+  //   }
+  // },[inputFormValues])
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setInputFormValues({ ...inputFormValues, [name]: value });
+  }
+   
+
+  const validateForm = (values) => {
+    const errors = {};
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!values.inputPaymentId) {
+      errors.inputPaymentId = "Payment Id is required."
+    }
+    if (!values.inputToDate) {
+      errors.inputToDate = "Date is required."
+    }
+    if (!values.inputFromDate) {
+      errors.inputFromDate = "Date is required."
+    }
+    if (!values.inputMerchantId) {
+      errors.inputMerchantId = "Merchant Id is required."
+    }
+    if (!values.inputEmail) {
+      errors.inputEmail = "Email is required."
+    } else if (!regex.test(values.inputEmail)) {
+      errors.inputEmail = "This is not a valid email format."
+    }
+    if (!values.inputAmount) {
+      errors.inputAmount = "Amount is required."
+    }
+    if (!values.inputPaymentStatus) {
+      errors.inputPaymentStatus = "Payment Status is required."
+    }
+
+    return errors;
+  }
 
   return (
     <div className="modalBody">
@@ -37,51 +79,101 @@ const AddRowModal = ({ paymentToDelete, closeAddRowModal, deletePayment }) => {
           <img className="close" src={Images.closeIcon} alt="" onClick={() => closeAddRowModal()} />
         </div>
         <div className='modal-body'>
-          <form onSubmit={(e) => getFormData(e)}>
-            <div className="form-row">
-              <div className="form-group  ">
-                <label htmlFor="inputPaymentId">Payment Id</label>
-                <input onChange={(e)=>setInputPaymentId(e.target.value)} type="number" className="form-control" id="inputPaymentId" placeholder="Payment Id" />
+          {(Object.keys(inputFormErrors).length === 0 && isSubmit)
+            ? <div>
+                <span>Payment ID "{inputFormValues.inputPaymentId}" Added Successfully</span>
+                <img 
+                  className='img-tick'
+                  src={Images.Tick}
+                />
               </div>
-              <div className="form-group  ">
-                <label htmlFor="inputFromDate">To Date</label>
-                <input onChange={(e)=>setInputFromDate(e.target.value)} type="date" className="form-control" id="inputFromDate" />
-                <label htmlFor="inputToDate">From Date</label>
-                <input onChange={(e)=>setInputToDate(e.target.value)} type="date" className="form-control" id="inputToDate" />
-              </div>
-              <div className="form-group  ">
-                <label htmlFor="inputMerchantId">Merchant Id</label>
-                <input onChange={(e)=>setInputMerchantId(e.target.value)} type="number" className="form-control" id="inputMerchantId" placeholder="Merchant Id" />
-              </div>
-              <div className="form-group  ">
-                <label htmlFor="inputEmail">Email</label>
-                <input onChange={(e)=>setInputEmail(e.target.value)} type="email" className="form-control" id="inputEmail" placeholder="Email" />
-              </div>
-              <div className="form-group  ">
-                <label htmlFor="inputAmount">Amount</label>
-                <input onChange={(e)=>setInputAmount(e.target.value)} type="number" className="form-control" id="inputAmount" placeholder="Amount" />
-              </div>
-            </div>
+            : (
+              <form onSubmit={handleForm}>
+                <div className="form-row">
+                  <div className="form-group  ">
+                    <label htmlFor="inputPaymentId">Payment Id</label>
+                    <input
+                      name="inputPaymentId"
+                      value={inputFormValues.inputPaymentId}
+                      onChange={handleChange}
+                      type="number"
+                      className="form-control"
+                      id="inputPaymentId"
+                      placeholder="Payment Id"
+                    />
+                  </div>
+                  <span>{inputFormErrors.inputPaymentId}</span>
+                  <div className="form-group  ">
+                    <label htmlFor="inputFromDate">To Date</label>
+                    <input
+                      name="inputToDate"
+                      value={inputFormValues.inputToDate}
+                      onChange={handleChange}
+                      type="date"
+                      className="form-control"
+                      id="inputFromDate"
+                    />
+                    <label htmlFor="inputToDate">From Date</label>
+                    <input
+                      name="inputFromDate"
+                      value={inputFormValues.inputFromDate}
+                      onChange={handleChange}
+                      type="date"
+                      className="form-control"
+                      id="inputToDate" />
+                  </div>
+                  <span>{inputFormErrors.inputToDate}</span>
+                  <span>{inputFormErrors.inputFromDate}</span>
+                  <div className="form-group  ">
+                    <label htmlFor="inputMerchantId">Merchant Id</label>
+                    <input
+                      name="inputMerchantId"
+                      value={inputFormValues.inputMerchantId}
+                      onChange={handleChange}
+                      type="number" className="form-control" id="inputMerchantId" placeholder="Merchant Id" />
+                  </div>
+                  <span>{inputFormErrors.inputMerchantId}</span>
+                  <div className="form-group  ">
+                    <label htmlFor="inputEmail">Email</label>
+                    <input
+                      name="inputEmail"
+                      value={inputFormValues.inputEmail}
+                      onChange={handleChange}
+                      type="email" className="form-control" id="inputEmail" placeholder="Email" />
+                  </div>
+                  <span>{inputFormErrors.inputEmail}</span>
+                  <div className="form-group  ">
+                    <label htmlFor="inputAmount">Amount</label>
+                    <input
+                      name="inputAmount"
+                      value={inputFormValues.inputAmount}
+                      onChange={handleChange}
+                      type="number" className="form-control" id="inputAmount" placeholder="Amount" />
+                  </div>
+                  <span>{inputFormErrors.inputAmount}</span>
+                </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="inputPaymentStatus">Payment Status</label>
-                <select id="inputPaymentStatus" className="form-control"onChange={(e)=>setInputPaymentStatus(e.target.value)} >
-                  <option selected>Choose...</option>
-                  <option>Initiated</option>
-                  <option>Failed</option>
-                  <option>Dropped</option>
-                  <option>Success</option>
-                  <option>Refunded</option>
-                </select>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div className="modal-footer buttons">
-          <button className="cancel button btn btn-danger" onClick={() => closeAddRowModal()}>Cancel</button>
-          {/* <button type='submit' className="deleteButton button btn btn-primary" onClick={(e)=>{getFormData(e)}}>Save Data</button> */}
-          <input type="submit" value="Submit Data" className="deleteButton button btn btn-primary" />
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="inputPaymentStatus">Payment Status</label>
+                    <select id="inputPaymentStatus" className="form-control" onChange={handleChange} name="inputPaymentStatus" value={inputFormValues.inputPaymentStatus}>
+                      <option selected>Choose...</option>
+                      <option>Initiated</option>
+                      <option>Failed</option>
+                      <option>Dropped</option>
+                      <option>Success</option>
+                      <option>Refunded</option>
+                    </select>
+                  </div>
+                  <span>{inputFormErrors.inputPaymentStatus}</span>
+                </div>
+                <div className="modal-footer buttons">
+                  <button className="cancel button btn btn-danger" onClick={() => closeAddRowModal()}>Cancel</button>
+                  <button type='submit' className="deleteButton button btn btn-primary">Save Data</button>
+                </div>
+              </form>
+            )
+          }
         </div>
       </div>
     </div>

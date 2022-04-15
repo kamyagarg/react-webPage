@@ -263,6 +263,10 @@ const LandingPage = () => {
     }
   }
 
+  const getFormData = (data) => {
+    console.log("data form in the parent", data);
+  }
+
   return (
     <>
       <header>Payment Details</header>
@@ -303,7 +307,7 @@ const LandingPage = () => {
         ></DeleteModal>}
 
         {showAddModal && (
-          <AddRowModal closeAddRowModal={closeAddRowModal}/>
+          <AddRowModal closeAddRowModal={closeAddRowModal} formData={getFormData}/>
         )}
       </div>
     </>
