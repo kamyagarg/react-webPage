@@ -5,16 +5,16 @@ import DeleteModal from '../deleteModal';
 import Posts from '../posts/Posts.js'
 import PaginationComp from '../paginationComp/PaginationComp';
 import AddRowModal from '../addRowModal/AddRowModal.js';
-
+import moment from 'moment';
 import './LandingPage.css';
 
 const LandingPage = () => {
 
   const [displayData, setDisplayData] = useState(data);
   const [tableColumns, setTableColumns] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(5);
-  const [currentPosts, setCurrentPosts] = useState();
+  const [currentPage, setCurrentPage] = useState(1,getLocalStorageData);
+  const [postsPerPage, setPostsPerPage] = useState(5,getLocalStorageData);
+  const [currentPosts, setCurrentPosts] = useState(getLocalStorageData);
   const [sortClicked, setSortClicked] = useState(false);
   const [paginationClicked, setPaginationClicked] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState();
@@ -28,15 +28,6 @@ const LandingPage = () => {
   const [fromDateError, setFromDateError] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [paymentToDelete, setPaymentToDelete] = useState();
-  const [rowsPerPage, setRowsPerPage] = useState(6);
-  const [rowValue, setRowValue] = useState(6);
-  const [totalPages, setTotalPages] = useState();
-  const [firstIndex, setFirstIndex] = useState(0);
-  const [lastIndex, setLastIndex] = useState(rowsPerPage - 1);
-  const [paginatedData, setPaginatedData] = useState();
-  const [pageNo, setPageNo] = useState(currentPage);
-  const [max, setMax] = useState(displayData.length);
-  const min = 1;
 
 
   // Extracting columns for the table
@@ -49,7 +40,7 @@ const LandingPage = () => {
     window.localStorage.setItem('postsPerPage', JSON.stringify(postsPerPage));
     window.localStorage.setItem('currentPage', JSON.stringify(currentPage));
     window.localStorage.setItem('currentPosts', JSON.stringify(currentPosts));
-  }, [postsPerPage, currentPage, displayData, currentPosts]);
+  }, [postsPerPage, currentPage, displayData, currentPosts, displayData]);
 
   // Modifying data as per page number to display on screen
   useEffect(() => {
@@ -57,16 +48,32 @@ const LandingPage = () => {
       modifyDisplayData();
   }, [paginationClicked, sortClicked]);
 
+  useEffect(()=> {
+    modifyDisplayData();
+  },[displayData])
 
   useEffect(() => {
-    // console.log("localStorage currentPosts", (localStorage.getItem('currentPosts')));
-    // console.log("localStorage currentPosts", JSON.parse(localStorage.getItem('postsPerPage')));
-    // console.log("localStorage currentPosts", JSON.parse(localStorage.getItem('currentPage')));
-    setPostsPerPage(JSON.parse(localStorage.getItem('postsPerPage')));
-    setCurrentPage(JSON.parse(localStorage.getItem('currentPage')));
+    // debugger;
+    // console.log("localStorage currentPosts", JSON.parse(localStorage.getItem('currentPosts')));
+    console.log("localStorage postsPerPage", JSON.parse(localStorage.getItem('postsPerPage')));
+    console.log("localStorage currentPage", JSON.parse(localStorage.getItem('currentPage')));
+    // setPostsPerPage(JSON.parse(localStorage.getItem('postsPerPage')));
+    // setCurrentPage(JSON.parse(localStorage.getItem('currentPage')));
     // setCurrentPosts(JSON.parse(window.localStorage.getItem('currentPosts')));
     // modifyDisplayData();
   }, []);
+
+  function getLocalStorageData () {
+    // debugger;
+    const rows = JSON.parse(localStorage.getItem('postsPerPage'));
+    const currPage = JSON.parse(localStorage.getItem('currentPage'));
+    // const posts = JSON.parse(localStorage.getItem('currentPosts'));
+    console.log("getLocalStorageData rows",rows);
+    console.log("getLocalStorageData currPage",currPage);
+    setPostsPerPage(rows);
+    setCurrentPage(currPage);
+    // console.log("getLocalStorageData posts",posts);
+  }
 
   // Modifying data as per page number to display on screen
   const modifyDisplayData = () => {
@@ -101,10 +108,9 @@ const LandingPage = () => {
     const searchKeyWord = e.target.value
     setSearchValue(searchKeyWord);
     setCurrentPage(1);
-    setPageNo(1);
     let tempData = [];
-    if (data && data.length > 0) {
-      data.forEach((item) => {
+    if (displayData && displayData.length > 0) {
+      displayData.forEach((item) => {
         if (
           item.customerEmail.toLowerCase().includes(searchKeyWord.toLowerCase()) ||
           item.paymentId.toString().includes(searchKeyWord.toLowerCase()) ||
@@ -133,7 +139,6 @@ const LandingPage = () => {
         dataArr = displayData;
       }
       setCurrentPage(1);
-      setPageNo(1);
       setFromDateError(false);
       setFromDate(fromDateVar);
       let tempData = [];
@@ -166,7 +171,6 @@ const LandingPage = () => {
         dataArr = data;
       }
       setCurrentPage(1);
-      setPageNo(1);
       setToDateError(false)
       setToDate(toDateVar);
       let tempData = [];
@@ -238,14 +242,12 @@ const LandingPage = () => {
   }
 
   const handleAddPaymentClick = () => {
-    console.log("handleAddPaymentClick");
     setShowAddModal(true);
   }
 
   // Payment Id dropdown filtering 
   const handleFilter = (e) => {
     setCurrentPage(1);
-    // setPageNo(1);
     const value = e.target.value
     setFilter(value)
     let tempData = [];
@@ -262,9 +264,23 @@ const LandingPage = () => {
       setCurrentPosts(tempData)
     }
   }
-
+  
+  // console.log("display data", displayData[0]);
   const getFormData = (data) => {
     console.log("data form in the parent", data);
+    let tempArr=[];
+    const tempObj = {
+      paymentId: parseInt(data.inputPaymentId),
+      // orderDate: data.inputDate.toLocaleDateString('en-US'),
+      orderDate: data.inputDate,
+      merchatId: parseInt(data.inputMerchantId),
+      customerEmail: data.inputEmail,
+      amount : parseInt(data.inputAmount),
+      paymentStatus: data.inputPaymentStatus,
+    }
+    tempArr.push(tempObj,...displayData);
+    console.log("temm Array",tempArr);
+    setDisplayData(tempArr);
   }
 
   return (

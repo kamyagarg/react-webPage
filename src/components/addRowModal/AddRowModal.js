@@ -5,8 +5,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
 
   const initialFormValues = {
     inputPaymentId: '',
-    inputFromDate: '',
-    inputToDate: '',
+    inputDate: '',
     inputMerchantId: '',
     inputEmail: '',
     inputAmount: '',
@@ -24,6 +23,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
 
   useEffect(() => {
     if (Object.keys(inputFormErrors).length === 0 && isSubmit) {
+      console.log("inputFormValues",inputFormValues.inputDate.toLocaleString('en-US'))
       formData(inputFormValues);
     }
   }, [inputFormErrors])
@@ -47,11 +47,8 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
     if (!values.inputPaymentId) {
       errors.inputPaymentId = "Payment Id is required."
     }
-    if (!values.inputToDate) {
-      errors.inputToDate = "Date is required."
-    }
-    if (!values.inputFromDate) {
-      errors.inputFromDate = "Date is required."
+    if (!values.inputDate) {
+      errors.inputDate = "Date is required."
     }
     if (!values.inputMerchantId) {
       errors.inputMerchantId = "Merchant Id is required."
@@ -104,26 +101,17 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
                   </div>
                   <span>{inputFormErrors.inputPaymentId}</span>
                   <div className="form-group  ">
-                    <label htmlFor="inputFromDate">To Date</label>
+                    <label htmlFor="inputDate">Date</label>
                     <input
-                      name="inputToDate"
-                      value={inputFormValues.inputToDate}
+                      name="inputDate"
+                      value={inputFormValues.inputDate}
                       onChange={handleChange}
                       type="date"
                       className="form-control"
-                      id="inputFromDate"
+                      id="inputDate"
                     />
-                    <label htmlFor="inputToDate">From Date</label>
-                    <input
-                      name="inputFromDate"
-                      value={inputFormValues.inputFromDate}
-                      onChange={handleChange}
-                      type="date"
-                      className="form-control"
-                      id="inputToDate" />
                   </div>
-                  <span>{inputFormErrors.inputToDate}</span>
-                  <span>{inputFormErrors.inputFromDate}</span>
+                  <span>{inputFormErrors.inputDate}</span>
                   <div className="form-group  ">
                     <label htmlFor="inputMerchantId">Merchant Id</label>
                     <input
