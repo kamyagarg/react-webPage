@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Images from '../../utils/Images';
+import '../LandingPage/LandingPage.css';
 
 const AddRowModal = ({ closeAddRowModal,formData }) => {
 
@@ -99,7 +100,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
                       placeholder="Payment Id"
                     />
                   </div>
-                  <span>{inputFormErrors.inputPaymentId}</span>
+                  <span classname="form-error-msg" style={{ color: "red", fontSize: "0.8rem" }}>{inputFormErrors.inputPaymentId}</span>
                   <div className="form-group  ">
                     <label htmlFor="inputDate">Date</label>
                     <input
@@ -111,7 +112,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
                       id="inputDate"
                     />
                   </div>
-                  <span>{inputFormErrors.inputDate}</span>
+                  <span classname="form-error-msg" style={{ color: "red", fontSize: "0.8rem" }}>{inputFormErrors.inputDate}</span>
                   <div className="form-group  ">
                     <label htmlFor="inputMerchantId">Merchant Id</label>
                     <input
@@ -120,7 +121,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
                       onChange={handleChange}
                       type="number" className="form-control" id="inputMerchantId" placeholder="Merchant Id" />
                   </div>
-                  <span>{inputFormErrors.inputMerchantId}</span>
+                  <span classname="form-error-msg" style={{ color: "red", fontSize: "0.8rem" }}>{inputFormErrors.inputMerchantId}</span>
                   <div className="form-group  ">
                     <label htmlFor="inputEmail">Email</label>
                     <input
@@ -129,7 +130,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
                       onChange={handleChange}
                       type="email" className="form-control" id="inputEmail" placeholder="Email" />
                   </div>
-                  <span>{inputFormErrors.inputEmail}</span>
+                  <span classname="form-error-msg" style={{ color: "red", fontSize: "0.8rem" }}>{inputFormErrors.inputEmail}</span>
                   <div className="form-group  ">
                     <label htmlFor="inputAmount">Amount</label>
                     <input
@@ -138,7 +139,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
                       onChange={handleChange}
                       type="number" className="form-control" id="inputAmount" placeholder="Amount" />
                   </div>
-                  <span>{inputFormErrors.inputAmount}</span>
+                  <span classname="form-error-msg" style={{ color: "red", fontSize: "0.8rem" }}>{inputFormErrors.inputAmount}</span>
                 </div>
 
                 <div className="form-row">
@@ -153,7 +154,7 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
                       <option>Refunded</option>
                     </select>
                   </div>
-                  <span>{inputFormErrors.inputPaymentStatus}</span>
+                  <span classname="form-error-msg" style={{ color: "red", fontSize: "0.8rem" }}>{inputFormErrors.inputPaymentStatus}</span>
                 </div>
                 <div className="modal-footer buttons">
                   <button className="cancel button btn btn-danger" onClick={() => closeAddRowModal()}>Cancel</button>
