@@ -29,12 +29,6 @@ const AddRowModal = ({ closeAddRowModal,formData }) => {
     }
   }, [inputFormErrors])
 
-  // useEffect(()=>{
-  //   if(Object.keys(inputFormErrors).length === 0 && isSubmit){
-  //     formData(inputFormValues);
-  //   }
-  // },[inputFormValues])
-
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;

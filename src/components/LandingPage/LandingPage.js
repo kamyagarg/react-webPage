@@ -52,27 +52,13 @@ const LandingPage = () => {
     modifyDisplayData();
   },[displayData])
 
-  useEffect(() => {
-    // debugger;
-    // console.log("localStorage currentPosts", JSON.parse(localStorage.getItem('currentPosts')));
-    // console.log("localStorage postsPerPage", JSON.parse(localStorage.getItem('postsPerPage')));
-    // console.log("localStorage currentPage", JSON.parse(localStorage.getItem('currentPage')));
-    // setPostsPerPage(JSON.parse(localStorage.getItem('postsPerPage')));
-    // setCurrentPage(JSON.parse(localStorage.getItem('currentPage')));
-    // setCurrentPosts(JSON.parse(window.localStorage.getItem('currentPosts')));
-    // modifyDisplayData();
-  }, []);
 
   function getLocalStorageData () {
-    // debugger;
     const rows = JSON.parse(localStorage.getItem('postsPerPage'));
     const currPage = JSON.parse(localStorage.getItem('currentPage'));
     // const posts = JSON.parse(localStorage.getItem('currentPosts'));
-    console.log("getLocalStorageData rows",rows);
-    console.log("getLocalStorageData currPage",currPage);
     setPostsPerPage(rows);
     setCurrentPage(currPage);
-    // console.log("getLocalStorageData posts",posts);
   }
 
   // Modifying data as per page number to display on screen
@@ -121,14 +107,10 @@ const LandingPage = () => {
         }
       });
       setCurrentPosts(tempData);
-      // setDisplayData(tempData);
     }
   }
 
   const handleFromDate = (fromDateVar) => {
-    console.log("handleFromDate");
-    console.log("from date", new Date(fromDateVar))
-    console.log("toDate", toDate)
     if (toDate && new Date(fromDateVar) > new Date(toDate)) {
       setFromDateError(true);
     } else {
@@ -145,22 +127,15 @@ const LandingPage = () => {
       if (displayData && displayData.length > 0) {
         dataArr.forEach((item) => {
           if (new Date(item.orderDate) >= new Date(fromDateVar)) {
-            console.log("item in from", item);
             tempData.push(item);
           }
         });
-        console.log("from date arrya", tempData);
         setDateWiseFilteredData(tempData);
-        // setCurrentPosts(tempData);
-        // setDisplayData(tempData);
       }
     }
   };
 
   const handleToDate = (toDateVar) => {
-    console.log("handleToDate");
-    console.log("newValue to date", toDateVar)
-    console.log("to date dateWiseFilteredData", dateWiseFilteredData);
     if (fromDate && new Date(toDateVar) < new Date(fromDate)) {
       setToDateError(true);
     } else {
@@ -177,13 +152,10 @@ const LandingPage = () => {
       if (dateWiseFilteredData && dateWiseFilteredData.length > 0) {
         dataArr.forEach((item) => {
           if (new Date(item.orderDate) <= new Date(toDateVar)) {
-            console.log("item in to array", item)
             tempData.push(item);
           }
         });
-        console.log("from date arrya", tempData);
         setCurrentPosts(tempData);
-        // setDisplayData(tempData);
       }
     }
   };
@@ -260,18 +232,14 @@ const LandingPage = () => {
           tempData.push(item);
         }
       });
-      // setDisplayData(tempData);
       setCurrentPosts(tempData)
     }
   }
   
-  // console.log("display data", displayData[0]);
   const getFormData = (data) => {
-    console.log("data form in the parent", data);
     let tempArr=[];
     const tempObj = {
       paymentId: parseInt(data.inputPaymentId),
-      // orderDate: data.inputDate.toLocaleDateString('en-US'),
       orderDate: data.inputDate,
       merchatId: parseInt(data.inputMerchantId),
       customerEmail: data.inputEmail,
@@ -279,7 +247,6 @@ const LandingPage = () => {
       paymentStatus: data.inputPaymentStatus,
     }
     tempArr.push(tempObj,...displayData);
-    console.log("temm Array",tempArr);
     setDisplayData(tempArr);
   }
 

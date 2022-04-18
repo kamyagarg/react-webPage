@@ -74,7 +74,6 @@ const Posts = ({ posts, columns, sortRows, handleDelete, handleFilter, filter, f
           <div className="table-row" key={item.customerEmail}>
             <div className="row-element paymentId first">{item.paymentId}</div>
             <div className="row-element orderDate second">{moment(item.orderDate).format('DD MMM YYYY')}</div>
-            {/* <div className="row-element orderDate second">{item.orderDate}</div> */}
             <div className="row-element merchantId third">{item.merchatId}</div>
             <div className="row-element email fourth">{item.customerEmail}</div>
             <div className="row-element amount fifth">{item.amount}</div>
