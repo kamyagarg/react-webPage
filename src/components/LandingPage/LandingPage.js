@@ -12,9 +12,9 @@ const LandingPage = () => {
 
   const [displayData, setDisplayData] = useState(data);
   const [tableColumns, setTableColumns] = useState();
-  const [currentPage, setCurrentPage] = useState(1,getLocalStorageData);
-  const [postsPerPage, setPostsPerPage] = useState(5,getLocalStorageData);
-  const [currentPosts, setCurrentPosts] = useState(getLocalStorageData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5);
+  const [currentPosts, setCurrentPosts] = useState();
   const [sortClicked, setSortClicked] = useState(false);
   const [paginationClicked, setPaginationClicked] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState();
@@ -55,8 +55,8 @@ const LandingPage = () => {
   useEffect(() => {
     // debugger;
     // console.log("localStorage currentPosts", JSON.parse(localStorage.getItem('currentPosts')));
-    console.log("localStorage postsPerPage", JSON.parse(localStorage.getItem('postsPerPage')));
-    console.log("localStorage currentPage", JSON.parse(localStorage.getItem('currentPage')));
+    // console.log("localStorage postsPerPage", JSON.parse(localStorage.getItem('postsPerPage')));
+    // console.log("localStorage currentPage", JSON.parse(localStorage.getItem('currentPage')));
     // setPostsPerPage(JSON.parse(localStorage.getItem('postsPerPage')));
     // setCurrentPage(JSON.parse(localStorage.getItem('currentPage')));
     // setCurrentPosts(JSON.parse(window.localStorage.getItem('currentPosts')));
