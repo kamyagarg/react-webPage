@@ -479,6 +479,24 @@ input:focus{
   border: 1px solid #4f7e93;
 }
 
+.row-element.email.fourth {
+  max-width: 7rem;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+
+
+  width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.row-element.email.fourth span{
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
 @media screen and (max-width: 480px) {
   .filter-search {
     flex-direction: column;

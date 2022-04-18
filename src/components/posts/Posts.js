@@ -22,7 +22,7 @@ const Posts = ({ posts, columns, sortRows, handleDelete, handleFilter, filter, f
       <div className="table-header">
         {columns?.map(title => {
           return (
-            <div className="email first head">
+            <div className="first head">
               <div className="column-header-wrapper">
                 <span>{Utils.camelToSpace(title)}</span>
                 {title.toLowerCase() !== 'action' && (
@@ -75,7 +75,7 @@ const Posts = ({ posts, columns, sortRows, handleDelete, handleFilter, filter, f
             <div className="row-element paymentId first">{item.paymentId}</div>
             <div className="row-element orderDate second">{moment(item.orderDate).format('DD MMM YYYY')}</div>
             <div className="row-element merchantId third">{item.merchatId}</div>
-            <div className="row-element email fourth">{item.customerEmail}</div>
+            <div className="row-element email fourth"><span>{item.customerEmail}</span></div>
             <div className="row-element amount fifth">{item.amount}</div>
             <div className="row-element paymentStatus sixth">{item.paymentStatus}</div>
             <div className="row-element seventh delete"
